@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => Date.parse(b.data.date) - Date.parse(a.data.date),
+);
+---
+
+<Layout title="首页" description="Telegram 群组每日 AI 摘要">
+  {
+    posts.length === 0 ? (
+      <p>暂无文章。等首个 digest 跑完后会自动出现在这里。</p>
+    ) : (
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li>
+            <h2>
+              <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+            </h2>
+            <time datetime={post.data.date}>{post.data.date}</time>
+            <span> · </span>
+            <span class="tag">{post.data.chat}</span>
+            {post.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+            {post.data.summary && <p class="excerpt">{post.data.summary}</p>}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</Layout>
