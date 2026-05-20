@@ -36,7 +36,7 @@ pnpm preview  # 本地预览构建产物
 
 一次性设置：
 
-1. 登录 Cloudflare → Workers & Pages → Create application → Pages → Connect to Git → 选择 `CornPrincess/tg-digest-blog`
+1. 登录 Cloudflare → Workers & Pages → Create application → 选择 `CornPrincess/tg-digest-blog`
 2. **Build configuration**：
    - Framework preset：`Astro`
    - Build command：`pnpm build`
@@ -44,6 +44,8 @@ pnpm preview  # 本地预览构建产物
    - Root directory：`/`（默认）
 3. **Environment variables**：留空（本站不需要 secret）
 4. Deploy。第一次会构建约 1-2 分钟。
+
+> ⚠️ **关于 Workers vs. Pages**：CF 2025 把 Pages 整合进 Workers，CLI 部署时如果识别为 Workers 项目，wrangler 会试图自动装 `@astrojs/cloudflare` SSR 适配器并失败（`Missing file or directory: public/.assetsignore`）。本仓 [wrangler.jsonc](./wrangler.jsonc) 已显式声明为纯静态 Assets 模式，避开该问题。无论 CF UI 把项目分类为 Workers 还是 Pages 都能正确部署。
 
 DNS 接管：
 

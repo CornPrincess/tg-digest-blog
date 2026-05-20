@@ -1,0 +1,21 @@
+// Cloudflare Workers Static Assets 配置。
+//
+// 本项目是纯静态站点：Astro 编译产物 dist/ 由 Cloudflare 直接作为 assets 提供，
+// 不需要 Worker 脚本、不需要 @astrojs/cloudflare SSR 适配器。
+//
+// 没有这个文件时 wrangler 4.x 会尝试 `astro add cloudflare` 自动装 SSR 适配器，
+// 然后期望 dist/_worker.js/index.js 存在而部署失败：
+//   ✘ Missing file or directory: public/.assetsignore
+//
+// 文档：https://developers.cloudflare.com/workers/static-assets/
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tg-digest-blog",
+  "compatibility_date": "2026-05-20",
+  "assets": {
+    "directory": "./dist",
+    // SPA 路由用 single-page-application；本站每篇文章是独立 .html，
+    // 用 not-found-handling 配合自带的 404 表现更直观（暂未自定义 404，留默认）。
+    "not_found_handling": "404-page"
+  }
+}
