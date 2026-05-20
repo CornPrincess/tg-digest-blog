@@ -1,0 +1,40 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const SITE_NAME = "TG Digest";
+const SITE_TAGLINE = "Telegram 群组每日 AI 摘要";
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | {SITE_NAME}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="alternate" type="application/rss+xml" title={SITE_NAME} href="/rss.xml" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="site-header">
+        <h1><a href="/">{SITE_NAME}</a></h1>
+        <p>{SITE_TAGLINE}</p>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <p>由 <code>tg_chat_tool</code> 自动生成 · 部署于 Cloudflare Pages</p>
+      </footer>
+    </div>
+  </body>
+</html>
